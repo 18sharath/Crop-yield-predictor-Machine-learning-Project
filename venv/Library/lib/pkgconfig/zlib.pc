@@ -1,8 +1,8 @@
-prefix=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/Crop-yield-predictor-Machine-learning-Project/venv/Library
-exec_prefix=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/Crop-yield-predictor-Machine-learning-Project/venv/Library
-libdir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/Crop-yield-predictor-Machine-learning-Project/venv/Library/lib
-sharedlibdir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/Crop-yield-predictor-Machine-learning-Project/venv/Library/lib
-includedir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/Crop-yield-predictor-Machine-learning-Project/venv/Library/include
+prefix=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/venv/Library
+exec_prefix=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/venv/Library
+libdir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/venv/Library/lib
+sharedlibdir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/venv/Library/lib
+includedir=C:/Users/shara/Desktop/ALL FILES/ML_project_crop_yield/venv/Library/include
 
 Name: zlib
 Description: zlib compression library
