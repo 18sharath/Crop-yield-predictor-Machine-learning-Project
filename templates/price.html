@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crop Price Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn-custom {
+            background-color: #4facfe;
+            border: none;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #00f2fe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-4" style="color: #333;">Crop Price Prediction</h1>
+        <div class="card p-4">
+            <div class="card-body">
+                <form action="/price" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="Year" class="form-label">Year</label>
+                            <input type="number" class="form-control" name="Year" value="2013" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
+                            <input type="number" class="form-control" name="average_rain_fall_mm_per_year" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pesticides_tonnes" class="form-label">Pesticides (tonnes)</label>
+                            <input type="number" class="form-control" name="pesticides_tonnes" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
+                            <input type="number" step="0.01" class="form-control" name="avg_temp" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Area" class="form-label">Area</label>
+                            <input type="text" class="form-control" name="Area" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Item" class="form-label">Item</label>
+                            <input type="text" class="form-control" name="Item" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-custom btn-lg w-100">Predict Price</button>
+                        </div>
+                    </div>
+                </form>
+                {% if price_prediction %}
+                    <div class="mt-4 text-center">
+                        <h3>Predicted Price: <span class="text-success">${{ price_prediction }}</span></h3>
+                    </div>
+                {% endif %}
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-custom btn-lg w-100">Go to Yield Prediction</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
