@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file
+from flask import Flask, request, render_template, send_file, session
 import numpy as np
 import pandas as pd
 import pickle
@@ -7,33 +7,40 @@ import io
 import base64
 import seaborn as sns
 
+
 # Load models
-dtr = pickle.load(open('best_model_rft.pkl', 'rb'))
-preprocessor = pickle.load(open('preprocessor.pkl', 'rb'))
+best_model_yield = pickle.load(open('best_model_yield.pkl', 'rb'))
+best_model_price = pickle.load(open('best_model_price.pkl', 'rb'))
+preprocessor=pickle.load(open('preprocessor.pkl','rb'))
+preprocessor_price = pickle.load(open('preprocessor_price.pkl', 'rb'))
 
 # Flask app
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 @app.route('/')
 def index():
     return render_template('up_index.html')
 
 @app.route("/predict", methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-        Year = request.form['Year']
-        average_rain_fall_mm_per_year = request.form['average_rain_fall_mm_per_year']
-        pesticides_tonnes = request.form['pesticides_tonnes']
-        avg_temp = request.form['avg_temp']
+        Year = int(request.form['Year'])
+        average_rain_fall_mm_per_year = float(request.form['average_rain_fall_mm_per_year'])
+        pesticides_tonnes = float(request.form['pesticides_tonnes'])
+        avg_temp = float(request.form['avg_temp'])
         Area = request.form['Area']
         Item = request.form['Item']
 
-        features = np.array([[Area, Item, Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp]], dtype=object)
+        # features = np.array([[Area, Item, Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp]], dtype=object)
+        features = pd.DataFrame([[Area, Item, Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp]],
+                                columns=['Area', 'Item', 'Year', 'average_rain_fall_mm_per_year', 'pesticides_tonnes',
+                                         'avg_temp'])
         transformed_features = preprocessor.transform(features)
-        predicted_value = dtr.predict(transformed_features).reshape(1, -1)
-
-
-        return render_template('up_index.html', prediction=predicted_value[0][0], graph_url=graph_url)
+        predicted_value = best_model_yield.predict(transformed_features).reshape(1, -1)
+        session['predicted_value'] = predicted_value
+        return render_template('up_index.html', prediction=predicted_value)
 
 @app.route("/bulk_predict", methods=['POST'])
 def bulk_predict():
@@ -61,7 +68,7 @@ def bulk_predict():
 
 
     features = preprocessor.transform(data)
-    predictions = dtr.predict(features)
+    predictions = best_model_yield.predict(features)
 
     # Add predictions to the DataFrame
     data['Predicted_Yield'] = predictions
@@ -85,7 +92,8 @@ def validat_csv(f):
         if col not in f.columns:
             f[col] = None  # Add missing columns with default values (e.g., None or 0)
 
-    return f.to_csv('updated_file.csv', index=False)
+    up_f = f.to_csv('updated_file.csv', index=False)
+    return up_f
 
 
 
@@ -99,15 +107,34 @@ def generate_heatmaps():
         return "No selected file", 400
 
     # Read the CSV file
-    data = pd.read_csv(file)
+    f = pd.read_csv(file)
 
     #check and create validity of the csv
-    updated_file = validat_csv(data)
+    # Check if the number of rows is less than or equal to 10
+    if len(f) <= 10:
+        return "Insufficient data: Heatmaps require more than 10 instances.", 400
+
+    # Ensure all required columns are present
+    required_columns = [ 'Year', 'average_rain_fall_mm_per_year', 'avg_temp', 'pesticides_tonnes',
+                        'Predicted_Yield', 'Price']
+    for col in required_columns:
+        if col not in f.columns:
+            f[col] = None  # Add missing columns with default values (e.g., None or 0)
+
+    f.to_csv('updated_file.csv', index=False) #returns none
+
 
     # Generate first heatmap: Area, Year, Rain, Temp vs Yield
-    heatmap1_data = updated_file[['Area', 'Year', 'average_rain_fall_mm_per_year', 'avg_temp', 'Predicted_Yield']].corr()
+    f = f.rename(columns={
+        'average_rain_fall_mm_per_year': 'Rainfall',
+        'avg_temp': 'Temp',
+        'Predicted_Yield': 'Yield',
+        'pesticides_tonnes': 'Pesticides',
+        'Price': 'Price'
+    })
+    heatmap1_data = f[[ 'Year', 'Rainfall', 'Temp', 'Yield']].corr()
     plt.figure(figsize=(8, 6))
-    plt.title("Correlation Heatmap: Area, Year, Rain, Temp vs Yield")
+    plt.title("Correlation Heatmap: Year, Rain, Temp vs Yield")
     sns.heatmap(heatmap1_data, annot=True, cmap="coolwarm", fmt=".2f")
     buf1 = io.BytesIO()
     plt.savefig(buf1, format='png')
@@ -116,7 +143,7 @@ def generate_heatmaps():
     buf1.close()
 
     # Generate second heatmap: Item, Pesticides, Yield, Price
-    heatmap2_data = updated_file[['Item', 'pesticides_tonnes', 'Predicted_Yield', 'Price']].corr()
+    '''heatmap2_data = updated_file[['Item', 'Pesticides', 'Yield', 'Price']].corr()
     plt.figure(figsize=(8, 6))
     plt.title("Correlation Heatmap: Item, Pesticides, Yield, Price")
     sns.heatmap(heatmap2_data, annot=True, cmap="coolwarm", fmt=".2f")
@@ -124,9 +151,9 @@ def generate_heatmaps():
     plt.savefig(buf2, format='png')
     buf2.seek(0)
     heatmap2_url = base64.b64encode(buf2.getvalue()).decode('utf-8')
-    buf2.close()
+    buf2.close()'''
 
-    return render_template('heatmaps.html', heatmap1_url=heatmap1_url, heatmap2_url=heatmap2_url)
+    return render_template('heatmaps.html', heatmap1_url=heatmap1_url)
 
 
 
