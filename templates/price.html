@@ -1,87 +1,171 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Crop Price Prediction</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
-            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
         }
-        .card {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 25px;
+            background: #2e3b55;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
-        .btn-custom {
-            background-color: #4facfe;
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #d1e3ff;
+        }
+
+        .form-control {
+            border: 2px solid #5d7290;
+            background: #3e5170;
+            color: #ffffff;
+            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #7abaff;
+            background: #50688b;
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.7);
+        }
+
+        .btn-primary {
+            background: #007bff;
             border: none;
-            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+            width: 100%;
+            transition: background 0.3s ease;
         }
-        .btn-custom:hover {
-            background-color: #00f2fe;
+
+        .btn-primary:hover {
+            background: #0056b3;
+            color: #fff;
+            box-shadow: 0 8px 15px rgba(0, 91, 187, 0.7);
+        }
+
+        .alert {
+            font-size: 1.3rem;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-success {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .link-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .link-container a:hover {
+            color: #0056b3;
+            text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
-    <div class="container py-5">
-        <h1 class="text-center mb-4" style="color: #333;">Crop Price Prediction</h1>
-        <div class="card p-4">
-            <div class="card-body">
-                <form action="/price" method="post">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="crop_yield" class="form-label">Crop Yield</label>
-                            <input 
-                                type="number" 
-                                class="form-control" 
-                                name="crop_yield" 
-                                placeholder="{{ predicted_value }}" 
-                                required>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <label for="Year" class="form-label">Year</label>
-                            <input type="number" class="form-control" name="Year" value="2013" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
-                            <input type="number" class="form-control" name="average_rain_fall_mm_per_year" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="pesticides_tonnes" class="form-label">Pesticides (tonnes)</label>
-                            <input type="number" class="form-control" name="pesticides_tonnes" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
-                            <input type="number" step="0.01" class="form-control" name="avg_temp" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Area" class="form-label">Area</label>
-                            <input type="text" class="form-control" name="Area" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Item" class="form-label">Item</label>
-                            <input type="text" class="form-control" name="Item" required>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-custom btn-lg w-100">Predict Price</button>
-                        </div>
-                    </div>
-                </form>
-                {% if price_prediction %}
-                    <div class="mt-4 text-center">
-                        <h3>Predicted Price: <span class="text-success">${{ price_prediction }}</span></h3>
-                    </div>
-                {% endif %}
-                <div class="text-center mt-4">
-                    <a href="/" class="btn btn-custom btn-lg w-100">Go to Yield Prediction</a>
-                </div>
+    <div class="container">
+        <h2>Crop Price Predictor</h2>
+        <form method="POST" action="/price">
+            <div class="mb-3">
+                <label for="Area" class="form-label">Area</label>
+                <input type="text" name="Area" id="Area" class="form-control"
+                    value="{{ session['Area'] if session.get('Area') else '' }}" required>
             </div>
+            <div class="mb-3">
+                <label for="Item" class="form-label">Crop Item</label>
+                <input type="text" name="Item" id="Item" class="form-control"
+                    value="{{ session['Item'] if session.get('Item') else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="Year" class="form-label">Year</label>
+                <input type="number" name="Year" id="Year" class="form-control"
+                    value="{{ session['Year'] if session.get('Year') else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
+                <input type="number" step="0.01" name="average_rain_fall_mm_per_year" id="average_rain_fall_mm_per_year"
+                    class="form-control"
+                    value="{{ session['average_rain_fall_mm_per_year'] if session.get('average_rain_fall_mm_per_year') else '' }}"
+                    placeholder="Enter Rainfall" required>
+            </div>
+            <div class="mb-3">
+                <label for="pesticides_tonnes" class="form-label">Pesticides Used (tonnes)</label>
+                <input type="number" step="0.01" name="pesticides_tonnes" id="pesticides_tonnes" class="form-control"
+                    value="{{ session['pesticides_tonnes'] if session.get('pesticides_tonnes') else '' }}"
+                    placeholder="Enter Pesticides Usage" required>
+            </div>
+            <div class="mb-3">
+                <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
+                <input type="number" step="0.01" name="avg_temp" id="avg_temp" class="form-control"
+                    value="{{ session['avg_temp'] if session.get('avg_temp') else '' }}"
+                    placeholder="Enter Average Temperature" required>
+            </div>
+            <div class="mb-3">
+                <label for="crop_yield" class="form-label">Predicted Crop Yield</label>
+                <input type="number" step="0.01" name="crop_yield" id="crop_yield" class="form-control"
+                    value="{{ session['predicted_value'] if session.get('predicted_value') else '' }}"
+                    placeholder="Predicted Yield" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Predict Price</button>
+            </div>
+            {% if price_prediction %}
+            <div class="mt-4 alert alert-success text-center">
+                Predicted Crop Price: <strong>{{ price_prediction }}</strong>
+            </div>
+            {% endif %}
+            {% if error %}
+            <div class="mt-4 alert alert-danger text-center">
+                <strong>{{ error }}</strong>
+            </div>
+            {% endif %}
+        </form>
+        <div class="redirect-container">
+            <a href="/" class="btn btn-secondary">Go to Yield Prediction</a>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
