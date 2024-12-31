@@ -8,38 +8,38 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: #3a4e6e;
             font-family: 'Poppins', sans-serif;
             color: #ffffff;
         }
 
         .container {
-            max-width: 850px;
-            margin: 50px auto;
+            max-width: 1000px;
+            margin: 70px auto;
             padding: 25px;
-            background: #2e3b55;
+            background: #1e2a3e;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
             text-align: center;
-            color: #fff;
+            color: #E0E6F8;
             margin-bottom: 20px;
         }
 
         label {
             font-size: 1.1rem;
             font-weight: 500;
-            color: #d1e3ff;
+            color: #a9c8f4;
         }
 
         .form-control {
-            border: 2px solid #5d7290;
-            background: #3e5170;
-            color: #ffffff;
+            border: 2px solid #476a8e;
+            background: #2a3d5a;
+            color: #dcefff;
             font-size: 1.2rem;
             padding: 15px;
             border-radius: 10px;
@@ -48,8 +48,8 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #7abaff;
-            background: #50688b;
+            border-color: #69a3ff;
+            background: #314c70;
             box-shadow: 0 0 10px rgba(0, 162, 255, 0.7);
         }
 
@@ -87,123 +87,116 @@
 
         .link-container {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .link-container a {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
             color: #007bff;
             text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            background-color: transparent;
+            transition: all 0.3s ease;
         }
 
         .link-container a:hover {
-            color: #0056b3;
-            text-decoration: underline;
+            background-color: #007bff;
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.6);
+        }
+
+        .redirect-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .redirect-container a {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 25px;
+            background-color: #1e3a8a;
+            /* Dark Blue */
+            border-radius: 10px;
+            border: 2px solid #1e3a8a;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
+            /* Subtle shadow */
+        }
+
+        .redirect-container a:hover {
+            background-color: #3b82f6;
+            /* Lighter Blue */
+            border-color: #3b82f6;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+            /* Glow effect */
+            transform: translateY(-2px);
+            /* Lifted effect */
+        }
+
+        .form-control::placeholder {
+            color: #ffffff;
+            opacity: 0.7;
+            /* Ensures the placeholder color is fully opaque */
         }
     </style>
 </head>
 
 <body>
-<<<<<<< HEAD
-    <div class="container py-5">
-        <h1 class="text-center mb-4" style="color: #333;">Crop Price Prediction</h1>
-        <div class="card p-4">
-            <div class="card-body">
-                <form action="/price" method="post">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="crop_yield" class="form-label">Crop Yield</label>
-                            <input 
-                                type="number" 
-                                class="form-control" 
-                                name="crop_yield" 
-                                value="{{ predicted_value }}" 
-                                required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Year" class="form-label">Year</label>
-                            <input type="number" class="form-control" name="Year" value="2013" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
-                            <input type="number" class="form-control" name="average_rain_fall_mm_per_year" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="pesticides_tonnes" class="form-label">Pesticides (tonnes)</label>
-                            <input type="number" class="form-control" name="pesticides_tonnes" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
-                            <input type="number" step="0.01" class="form-control" name="avg_temp" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Area" class="form-label">Area</label>
-                            <input type="text" class="form-control" name="Area" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Item" class="form-label">Item</label>
-                            <input type="text" class="form-control" name="Item" required>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-custom btn-lg w-100">Predict Price</button>
-                        </div>
-                    </div>
-                </form>
-                {% if price_prediction %}
-                    <div class="mt-4 text-center">
-                        <h3>Predicted Price: <span class="text-success">${{ price_prediction }}</span></h3>
-                    </div>
-                {% endif %}
-                <div class="text-center mt-4">
-                    <a href="/" class="btn btn-custom btn-lg w-100">Go to Yield Prediction</a>
-                </div>
-=======
     <div class="container">
-        <h2>Crop Price Predictor</h2>
+        <h2 class="title">Crop Price Predictor</h2>
         <form method="POST" action="/price">
-            <div class="mb-3">
-                <label for="Area" class="form-label">Area</label>
-                <input type="text" name="Area" id="Area" class="form-control"
-                    value="{{ session['Area'] if session.get('Area') else '' }}" required>
->>>>>>> 23e538fdb6ef4ab44364712badeecf9b84320460
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="Area" class="form-label">Area</label>
+                    <input type="text" name="Area" id="Area" class="form-control"
+                        value="{{ session['Area'] if session.get('Area') else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="Item" class="form-label">Crop Item</label>
+                    <input type="text" name="Item" id="Item" class="form-control"
+                        value="{{ session['Item'] if session.get('Item') else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="Year" class="form-label">Year</label>
+                    <input type="number" name="Year" id="Year" class="form-control"
+                        value="{{ session['Year'] if session.get('Year') else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
+                    <input type="number" step="0.01" name="average_rain_fall_mm_per_year"
+                        id="average_rain_fall_mm_per_year" class="form-control"
+                        value="{{ session['average_rain_fall_mm_per_year'] if session.get('average_rain_fall_mm_per_year') else '' }}"
+                        placeholder="Enter Rainfall" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="pesticides_tonnes" class="form-label">Pesticides Used (tonnes)</label>
+                    <input type="number" step="0.01" name="pesticides_tonnes" id="pesticides_tonnes"
+                        class="form-control"
+                        value="{{ session['pesticides_tonnes'] if session.get('pesticides_tonnes') else '' }}"
+                        placeholder="Enter Pesticides Usage" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
+                    <input type="number" step="0.01" name="avg_temp" id="avg_temp" class="form-control"
+                        value="{{ session['avg_temp'] if session.get('avg_temp') else '' }}"
+                        placeholder="Enter Average Temperature" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="crop_yield" class="form-label">Predicted Crop Yield</label>
+                    <input type="number" step="0.01" name="crop_yield" id="crop_yield" class="form-control"
+                        value="{{ session['predicted_value'] if session.get('predicted_value') else '' }}"
+                        placeholder="Predicted Yield" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="Item" class="form-label">Crop Item</label>
-                <input type="text" name="Item" id="Item" class="form-control"
-                    value="{{ session['Item'] if session.get('Item') else '' }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="Year" class="form-label">Year</label>
-                <input type="number" name="Year" id="Year" class="form-control"
-                    value="{{ session['Year'] if session.get('Year') else '' }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
-                <input type="number" step="0.01" name="average_rain_fall_mm_per_year" id="average_rain_fall_mm_per_year"
-                    class="form-control"
-                    value="{{ session['average_rain_fall_mm_per_year'] if session.get('average_rain_fall_mm_per_year') else '' }}"
-                    placeholder="Enter Rainfall" required>
-            </div>
-            <div class="mb-3">
-                <label for="pesticides_tonnes" class="form-label">Pesticides Used (tonnes)</label>
-                <input type="number" step="0.01" name="pesticides_tonnes" id="pesticides_tonnes" class="form-control"
-                    value="{{ session['pesticides_tonnes'] if session.get('pesticides_tonnes') else '' }}"
-                    placeholder="Enter Pesticides Usage" required>
-            </div>
-            <div class="mb-3">
-                <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
-                <input type="number" step="0.01" name="avg_temp" id="avg_temp" class="form-control"
-                    value="{{ session['avg_temp'] if session.get('avg_temp') else '' }}"
-                    placeholder="Enter Average Temperature" required>
-            </div>
-            <div class="mb-3">
-                <label for="crop_yield" class="form-label">Predicted Crop Yield</label>
-                <input type="number" step="0.01" name="crop_yield" id="crop_yield" class="form-control"
-                    value="{{ session['predicted_value'] if session.get('predicted_value') else '' }}"
-                    placeholder="Predicted Yield" required>
-            </div>
-            <div class="text-center">
+            <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary">Predict Price</button>
             </div>
             {% if price_prediction %}
@@ -222,9 +215,5 @@
         </div>
     </div>
 </body>
-<<<<<<< HEAD
-</html>
-=======
 
 </html>
->>>>>>> 23e538fdb6ef4ab44364712badeecf9b84320460
