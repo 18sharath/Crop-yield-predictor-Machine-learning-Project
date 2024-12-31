@@ -33,6 +33,16 @@
                 <form action="/price" method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
+                            <label for="crop_yield" class="form-label">Crop Yield</label>
+                            <input 
+                                type="number" 
+                                class="form-control" 
+                                name="crop_yield" 
+                                placeholder="{{ predicted_value }}" 
+                                required>
+                        </div>
+                        
+                        <div class="col-md-6">
                             <label for="Year" class="form-label">Year</label>
                             <input type="number" class="form-control" name="Year" value="2013" required>
                         </div>
