@@ -30,7 +30,7 @@
                     <!-- Existing Input Fields -->
                     <div class="col-md-6">
                             <label for="Year" class="form-label">Year</label>
-                            <input type="number" class="form-control form-control-dark" name="Year" value="2013" required>
+                            <input type="number" class="form-control form-control-dark" name="Year" required>
                         </div>
                         <div class="col-md-6">
                             <label for="average_rain_fall_mm_per_year" class="form-label">Average Rainfall (mm/year)</label>
@@ -64,10 +64,7 @@
                 <h2>Predicted Yield:</h2>
                 <h3 style="color: black;">{{ prediction }}</h3>
             </div>
-            <div class="text-center mt-4">
-                <h2>Yield Trends:</h2>
-                <img src="data:image/png;base64,{{ graph_url }}" class="img-fluid" alt="Yield Trends">
-            </div>
+
             {% endif %}
         </div>
     </div>

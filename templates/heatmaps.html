@@ -13,13 +13,25 @@
     <h1 class="text-center">Heatmaps</h1>
 
     <div class="text-center">
-        <h2>Heatmap 1: Year, Rain, Temp vs Yield</h2>
-        <img src="data:image/png;base64,{{ heatmap1_url }}" class="img-fluid" alt="Heatmap 1">
+         <input type="hidden" name="value" value="crop">
+
+        {% if heatmap_url %}
+        <h2>Heatmap: Year, Rain, Temp, Yield</h2>
+        <img src="data:image/png;base64,{{ heatmap_url }}" class="img-fluid" alt="Heatmap ">
+        {% elif None %}
+        <p>Heatmap is not available.</p>
+        {% endif %}
+
     </div>
 
     <!--<div class="text-center mt-5">
-        <h2>Heatmap 2: Item, Pesticides, Yield, Price</h2>
-        <img src="data:image/png;base64,{{ heatmap2_url }}" class="img-fluid" alt="Heatmap 2">
+
+        {% if heatmap2_url %}
+        <h2>Heatmap:  Pesticides, Yield, Price</h2>
+        <img src="data:image/png;base64,{{ heatmap2_url }}" class="img-fluid" alt="Heatmap ">
+        {% else %}
+        <p>Heatmap is not available.</p>
+        {% endif %}
     </div>-->
 
 

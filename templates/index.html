@@ -291,15 +291,53 @@
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Predict Yield</button>
             </div>
+
             {% if prediction %}
             <div class="alert alert-success text-center mt-4">
                 Predicted Crop Yield: <strong>{{ prediction }}</strong>
             </div>
             {% endif %}
-        </form>
-        <div class="link-container">
+
+            <div class="link-container">
             <a href="/price">Go to Price Prediction</a>
         </div>
+
+
+
+
+
+        </form>
+
+        <div class="card bg-dark text-white border-0 mt-5 p-4">
+    <div class="card-body">
+        <!-- Bulk Prediction -->
+        <h2 class="text-center mb-4" style="color: #d1e3ff;">Bulk Prediction of Crop Yield</h2>
+        <form action="/bulk_predict" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="value" value="crop">
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload CSV File</label>
+                <input type="file" class="form-control" name="file"  required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 w-100">Upload and Predict</button>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-dark text-white border-0 mt-5 p-4">
+    <div class="card-body">
+        <!-- Heatmaps -->
+        <h2 class="text-center mb-4" style="color: #d1e3ff;">Generate Heatmap</h2>
+        <form action="/heatmaps" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="value" value="crop">
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload CSV File</label>
+                <input type="file" class="form-control" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 w-100">Generate Heatmap</button>
+        </form>
+    </div>
+</div>
+
     </div>
 </body>
 
