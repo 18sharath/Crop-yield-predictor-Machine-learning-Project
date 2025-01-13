@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, send_file, session
-import numpy as np
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
@@ -24,7 +23,6 @@ def index():
     return render_template('index.html')
 
 @app.route("/predict", methods=['POST'])
-
 def predict():
     if request.method == 'POST':
         Year = int(request.form['Year'])
@@ -34,7 +32,6 @@ def predict():
         Area = request.form['Area']
         Item = request.form['Item']
 
-        # features = np.array([[Area, Item, Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp]], dtype=object)
         features = pd.DataFrame([[Area, Item, Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp]],
                                 columns=['Area', 'Item', 'Year', 'average_rain_fall_mm_per_year', 'pesticides_tonnes',
                                          'avg_temp'])
@@ -58,7 +55,6 @@ def price():
         crop_yield = session.get('predicted_value', None)
         if crop_yield is None:
             return render_template('price.html', error="Crop yield prediction is missing. Please predict yield first.")
-
         # Extract other features from the form
         Year = session.get('Year', None)
         average_rain_fall_mm_per_year = session.get('average_rain_fall_mm_per_year', None)
@@ -66,7 +62,6 @@ def price():
         avg_temp = session.get('avg_temp', None)
         Area = session.get('Area', None)
         Item = session.get('Item', None)
-
         # Check if any of the required values are missing
         if None in [Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp, Area, Item]:
             return render_template('price.html',
